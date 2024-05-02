@@ -1,6 +1,6 @@
 public class Node {
     private String word;
-    private int fn; // Cost from the start node
+    private int fn;
     private Node parent;
 
     public Node(String word, Node parent, int fn) {
