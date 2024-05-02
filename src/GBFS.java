@@ -1,3 +1,4 @@
+package src;
 import java.util.*;
 
 public class GBFS implements SearchStrategy {

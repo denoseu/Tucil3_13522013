@@ -1,3 +1,4 @@
+package src;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -19,11 +20,11 @@ public class WordLadderGUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Load the background image
-        ImageIcon icon = new ImageIcon("background.png"); // Replace with your image path
+        ImageIcon icon = new ImageIcon("src/assets/background.png"); // Replace with your image path
         Image backgroundImage = icon.getImage().getScaledInstance(2000, 1414, Image.SCALE_SMOOTH);
 
         // Load the result background image
-        ImageIcon resultIcon = new ImageIcon("resultbg.png"); // Replace with your image path
+        ImageIcon resultIcon = new ImageIcon("src/assets/resultbg.png"); // Replace with your image path
         resultImage = resultIcon.getImage().getScaledInstance(1200, 300, Image.SCALE_SMOOTH); // Scale as needed
 
         // Set the custom panel with background
@@ -42,8 +43,8 @@ public class WordLadderGUI extends JFrame {
         endWordField.setBackground(Color.WHITE);
 
         // Icons for labels
-        ImageIcon startWordIcon = new ImageIcon("start.png");
-        ImageIcon endWordIcon = new ImageIcon("end.png");
+        ImageIcon startWordIcon = new ImageIcon("src/assets/start.png");
+        ImageIcon endWordIcon = new ImageIcon("src/assets/end.png");
         JLabel startWordLabel = new JLabel(new ImageIcon(startWordIcon.getImage().getScaledInstance(170, 40, Image.SCALE_SMOOTH)));
         JLabel endWordLabel = new JLabel(new ImageIcon(endWordIcon.getImage().getScaledInstance(170, 40, Image.SCALE_SMOOTH)));
 
@@ -55,7 +56,7 @@ public class WordLadderGUI extends JFrame {
         // Dropdown for selecting algorithm
         String[] algorithms = {"Uniform Cost Search", "Greedy Best-First Search", "A* Search"};
         JComboBox<String> algorithmChoice = new JComboBox<>(algorithms);
-        ImageIcon algorithmIcon = new ImageIcon("algorithm.png");
+        ImageIcon algorithmIcon = new ImageIcon("src/assets/algorithm.png");
         JLabel algorithmLabel = new JLabel(new ImageIcon(algorithmIcon.getImage().getScaledInstance(170, 40, Image.SCALE_SMOOTH)));
 
         inputPanel.add(algorithmLabel);
@@ -73,7 +74,7 @@ public class WordLadderGUI extends JFrame {
         // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.setOpaque(false);
-        ImageIcon searchButtonIcon = new ImageIcon("search.png");
+        ImageIcon searchButtonIcon = new ImageIcon("src/assets/search.png");
         JButton searchButton = new JButton(new ImageIcon(searchButtonIcon.getImage().getScaledInstance(107, 38, Image.SCALE_SMOOTH)));
         searchButton.setBorderPainted(false);
         searchButton.setContentAreaFilled(false);

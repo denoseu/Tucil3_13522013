@@ -1,3 +1,5 @@
+package src;
+
 import java.io.*;
 import java.util.*;
 
@@ -8,7 +10,7 @@ public class Main {
             System.out.println("Welcome to the Word Ladder Solver!");
 
             // Load the dictionary
-            Dictionary dictionary = new Dictionary("dictionary.txt");
+            Dictionary dictionary = new Dictionary("src/dictionary.txt");
 
             // Get user input for start and end words
             System.out.print("Enter start word: ");

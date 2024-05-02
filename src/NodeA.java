@@ -1,3 +1,4 @@
+package src;
 public class NodeA {
     private String word;
     private NodeA parent;

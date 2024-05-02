@@ -1,3 +1,4 @@
+package src;
 import java.util.*;
 
 public class AStar implements SearchStrategy {

@@ -1,3 +1,4 @@
+package src;
 public class Node {
     private String word;
     private int fn;
