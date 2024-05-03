@@ -8,12 +8,12 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class WordLadderGUI extends JFrame {
-    private BackgroundPanel backgroundPanel; // Panel that draws the background image
+    private BackgroundPanel backgroundPanel;
     private JTextField startWordField;
     private JTextField endWordField;
     private JComboBox<String> algorithmChoice;
-    private JTextArea resultTextArea;
-    private Image resultImage; // Image for the results area
+    private JTextPane resultTextPane;
+    private Image resultImage;
 
     public WordLadderGUI() {
         createUI();
@@ -66,7 +66,7 @@ public class WordLadderGUI extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridy = 0;
-        gbc.insets = new Insets(120, 0, 20, 0);
+        gbc.insets = new Insets(150, 0, 20, 0);
         backgroundPanel.add(inputPanel, gbc);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -96,15 +96,16 @@ public class WordLadderGUI extends JFrame {
             }
         };
         resultPanel.setOpaque(false);
-        resultPanel.setPreferredSize(new Dimension(800, 300));
+        resultPanel.setPreferredSize(new Dimension(800, 330));
 
-        resultTextArea = new JTextArea();
-        resultTextArea.setEditable(false);
-        resultTextArea.setOpaque(false);
-        resultTextArea.setForeground(Color.WHITE);
-        resultTextArea.setFont(new Font("SansSerif", Font.BOLD, 18));
+        resultTextPane = new JTextPane();
+        resultTextPane.setEditable(false);
+        resultTextPane.setContentType("text/html");
+        resultTextPane.setOpaque(false);
+        resultTextPane.setForeground(Color.WHITE);
+        resultTextPane.setFont(new Font("SansSerif", Font.BOLD, 18));
 
-        JScrollPane scrollPane = new JScrollPane(resultTextArea);
+        JScrollPane scrollPane = new JScrollPane(resultTextPane);
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         resultPanel.add(scrollPane, BorderLayout.CENTER);
@@ -179,13 +180,55 @@ public class WordLadderGUI extends JFrame {
 
     // Helper method to display results in the GUI
     private void displayResults(List<String> path, long timeTaken) {
-        if (path != null && !path.isEmpty()) {
-            resultTextArea.setText("Path found:\n" + String.join("\n", path) +
-                                   "\nTotal steps: " + (path.size() - 1) +
-                                   "\nExecution time: " + timeTaken + " ms");
-        } else {
-            resultTextArea.setText("No path found between the given words.");
+        StringBuilder sb = new StringBuilder("<html>");
+    
+        sb.append("<div style='text-align: center; padding-top: 10px; font-size: 18px; color: #FFFDF4;'>Path found:<br></div>");
+    
+        // keep semua isi yang lain
+        sb.append("<div style='text-align: center; padding-top: 20px; font-size: 18px;'>");
+        
+        for (int i = 0; i < path.size(); i++) {
+            if (i > 0) {
+                sb.append(formatWordTransition(path.get(i - 1), path.get(i)));
+            } else {
+                sb.append(formatInitialWord(path.get(i)));
+            }
         }
+        
+        // div utk total steps dan exe time
+        sb.append("<div style='font-size: 14px; color: #FFFDF4;'>")
+          .append("Total steps: ").append(path.size() - 1)
+          .append("<br>Execution time: ").append(timeTaken).append(" ms<br></div>");
+        
+        // Closing the main and html tags
+        sb.append("</div></html>");
+        
+        // Set the HTML content to the JTextPane
+        resultTextPane.setText(sb.toString());
+    }
+
+    private String formatInitialWord(String word) {
+        StringBuilder sb = new StringBuilder("<div style='letter-spacing: 10px;'>"); // Adding space between letter boxes
+        for (char c : word.toCharArray()) {
+            // Adding a non-breaking space before and after each character
+            sb.append("<span style='border:2px solid black; background-color: #FFFDF4; padding:15px; margin:5px; font-size: 20px; display: inline-block; width:40px; height:40px; line-height:40px; text-align:center;'>&nbsp;")
+              .append(c).append("&nbsp;</span>");
+        }
+        sb.append("</div><br>");
+        return sb.toString();
+    }
+    
+    private String formatWordTransition(String oldWord, String newWord) {
+        StringBuilder sb = new StringBuilder("<div style='letter-spacing: 10px;'>"); // Adding space between letter boxes
+        for (int i = 0; i < oldWord.length(); i++) {
+            char newChar = newWord.charAt(i);
+            String bgColor = oldWord.charAt(i) == newChar ? "#FFFDF4" : "#F69DA2"; // Background color change for transition
+            sb.append("<span style='border:2px solid black; background-color:")
+              .append(bgColor).append("; padding:15px; margin:5px; font-size: 20px; display: inline-block; width:40px; height:40px; line-height:40px; text-align:center;'>&nbsp;")
+              .append(newChar).append("&nbsp;</span>");
+        }
+        sb.append("</div><br>");
+        return sb.toString();
     }
 
     public static void main(String[] args) {
