@@ -138,46 +138,42 @@ public class WordLadderGUI extends JFrame {
 
     // handle search action
     private void performSearch() {
-        String start = startWordField.getText();
-        String end = endWordField.getText();
+        String start = startWordField.getText().trim();
+        String end = endWordField.getText().trim();
         String algorithm = (String) algorithmChoice.getSelectedItem();
-
-        // display loading pas lagi search
-        resultTextPane.setText("<html><div style='text-align: center; padding-top: 120px; font-size: 18px; color: #FFFDF4;'>Loading...</div></html>");
-
-        // Calculate start time
+    
         long startTime = System.currentTimeMillis();
-
         // Using SwingWorker to perform search in the background
         new SwingWorker<List<String>, Void>() {
             @Override
             protected List<String> doInBackground() throws Exception {
-                // Search logic
                 Dictionary dictionary = new Dictionary("src/dictionary.txt");
                 if (!dictionary.isWord(start) || !dictionary.isWord(end)) {
                     SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(WordLadderGUI.this, "Both words must be in the dictionary."));
                     return null;
                 }
-
+    
                 SearchStrategy strategy = getStrategy(algorithm);
                 if (strategy == null) {
                     SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(WordLadderGUI.this, "Invalid algorithm choice."));
                     return null;
                 }
-
+    
+                // Set loading message here, after checks
+                SwingUtilities.invokeLater(() -> resultTextPane.setText("<html><div style='text-align: center; padding-top: 120px; font-size: 18px; color: #FFFDF4;'>Loading...</div></html>"));
+    
                 return strategy.findWordLadder(start, end, dictionary);
             }
-
+    
             @Override
             protected void done() {
                 try {
-                    // Get search results
+                    // get search results
                     List<String> path = get();
                     if (path != null) {
-                        // Calculate execution time
+                        // hitung waktu
                         long endTime = System.currentTimeMillis();
                         long timeTaken = endTime - startTime;
-                        // Display results
                         displayResults(path, timeTaken);
                     }
                 } catch (InterruptedException | ExecutionException e) {
@@ -186,7 +182,7 @@ public class WordLadderGUI extends JFrame {
             }
         }.execute();
     }
-
+    
     private SearchStrategy getStrategy(String algorithm) {
         switch (algorithm) {
             case "Uniform Cost Search":
