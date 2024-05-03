@@ -4,7 +4,9 @@ import java.util.*;
 public class UCS implements SearchStrategy {
     @Override
     public SearchResult findWordLadder(String start, String end, Dictionary dictionary) {
+        // priority queue untuk menyimpan node yang akan diekspansi (dicari semua tetangga-tetangga dari node ini) -> semua simpul hidupnya
         PriorityQueue<Node> frontier = new PriorityQueue<>(Comparator.comparingInt(Node::getFn));
+        // set untuk menyimpan node yang sudah diekspansi
         Set<String> visited = new HashSet<>();
         frontier.add(new Node(start, null, 0));
         int exploredCount = 0;
@@ -12,24 +14,29 @@ public class UCS implements SearchStrategy {
         System.out.println("Starting UCS from: " + start + " to: " + end);
 
         while (!frontier.isEmpty()) {
+            // ambil node dengan f(n) terkecil -> udah prioqueue jadi udah otomatis terurut
             Node current = frontier.poll();
             exploredCount++;
             System.out.println("Exploring: " + current.getWord() + " with f(n) = g(n): " + current.getFn());
 
+            // cek apakah node ini adalah goal, jika iya maka langsung return
             if (current.getWord().equals(end)) {
                 System.out.println("Goal reached: " + current.getWord());
                 return new SearchResult(constructPath(current), exploredCount);
             }
 
-            if (!visited.contains(current.getWord())) {
+            // ekspansi node, karena meskipun dia sudah diekspansi sebelumnya, dia tetap saja perlu diekspansi lagi karena berasal dari node berbeda
+            // if (!visited.contains(current.getWord())) {
                 visited.add(current.getWord());
                 for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
+                    // cek apakah tetangga ini sudah pernah diekspansi sebelumnya
                     if (!visited.contains(neighbor)) {
+                        // kalau belum, dia ditambahin ke frontier
                         System.out.println("Adding to frontier: " + neighbor);
                         frontier.add(new Node(neighbor, current, current.getFn() + 1));
                     }
                 }
-            }
+            // }
         }
         return new SearchResult(Collections.emptyList(), exploredCount);
     }
@@ -43,6 +50,7 @@ public class UCS implements SearchStrategy {
         return path;
     }
 
+    // fungsi untuk mendapatkan semua tetangga dari suatu kata (beda 1 huruf)
     private List<String> getNeighbors(String word, Dictionary dictionary) {
         List<String> neighbors = new ArrayList<>();
         char[] chars = word.toCharArray();

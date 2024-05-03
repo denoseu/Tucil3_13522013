@@ -4,6 +4,7 @@ import java.util.*;
 public class GBFS implements SearchStrategy {
     @Override
     public SearchResult findWordLadder(String start, String end, Dictionary dictionary) {
+        // prio queue untuk simpen semua simpul hidup (yang akan diekspansi) -> urut berdasarkan h(n)
         PriorityQueue<Node> frontier = new PriorityQueue<>(Comparator.comparingInt(node -> heuristic(node.getWord(), end)));
         Map<String, Integer> visited = new HashMap<>();
         frontier.offer(new Node(start, null, 0));

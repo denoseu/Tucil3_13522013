@@ -1,10 +1,12 @@
 package src;
 import java.util.List;
 
+// interface buat diimplement masing-masing di UCS, GBFS, AStar
 public interface SearchStrategy {
     SearchResult findWordLadder(String start, String end, Dictionary dictionary);
 }
 
+// simpen search result, berupa path dan jumlah visited nodes
 class SearchResult {
     List<String> path;
     int nodesExplored;
