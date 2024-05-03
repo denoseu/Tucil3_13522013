@@ -1,7 +1,6 @@
 package src;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,11 +72,12 @@ public class WordLadderGUI extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.setOpaque(false);
         ImageIcon searchButtonIcon = new ImageIcon("src/assets/search.png");
-        JButton searchButton = new JButton(new ImageIcon(searchButtonIcon.getImage().getScaledInstance(107, 38, Image.SCALE_SMOOTH)));
+        JButton searchButton = new JButton(new ImageIcon(searchButtonIcon.getImage().getScaledInstance(107, 45, Image.SCALE_SMOOTH)));
         searchButton.setBorderPainted(false);
         searchButton.setContentAreaFilled(false);
         searchButton.setFocusPainted(false);
-        searchButton.setBorder(createRoundRectBorder(10, 1, new Color(0, 0, 0, 0), new Color(0, 0, 0, 0)));
+        searchButton.setBorder(BorderFactory.createEmptyBorder());
+        searchButton.setContentAreaFilled(false);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 performSearch();
@@ -114,26 +114,6 @@ public class WordLadderGUI extends JFrame {
         gbc.gridy = 2;
         gbc.insets = new Insets(10, 0, 0, 0);
         backgroundPanel.add(resultPanel, gbc);
-    }
-
-    private static Border createRoundRectBorder(int radius, int thickness, Color insideColor, Color borderColor) {
-        return new Border() {
-            public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-                g.setColor(borderColor);
-                g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-                ((Graphics2D) g).setStroke(new BasicStroke(thickness));
-                g.setColor(insideColor);
-                g.fillRoundRect(x + thickness, y + thickness, width - 2 * thickness, height - 2 * thickness, radius, radius);
-            }
-
-            public Insets getBorderInsets(Component c) {
-                return new Insets(thickness, thickness, thickness, thickness);
-            }
-
-            public boolean isBorderOpaque() {
-                return false;
-            }
-        };
     }
 
     // handle search action
