@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class WordLadderGUI extends JFrame {
     private BackgroundPanel backgroundPanel;
@@ -140,27 +141,50 @@ public class WordLadderGUI extends JFrame {
         String start = startWordField.getText();
         String end = endWordField.getText();
         String algorithm = (String) algorithmChoice.getSelectedItem();
-        try {
-            Dictionary dictionary = new Dictionary("src/dictionary.txt");
-            if (!dictionary.isWord(start) || !dictionary.isWord(end)) {
-                JOptionPane.showMessageDialog(this, "Both words must be in the dictionary.");
-                return;
+
+        // display loading pas lagi search
+        resultTextPane.setText("<html><div style='text-align: center; padding-top: 120px; font-size: 18px; color: #FFFDF4;'>Loading...</div></html>");
+
+        // Calculate start time
+        long startTime = System.currentTimeMillis();
+
+        // Using SwingWorker to perform search in the background
+        new SwingWorker<List<String>, Void>() {
+            @Override
+            protected List<String> doInBackground() throws Exception {
+                // Search logic
+                Dictionary dictionary = new Dictionary("src/dictionary.txt");
+                if (!dictionary.isWord(start) || !dictionary.isWord(end)) {
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(WordLadderGUI.this, "Both words must be in the dictionary."));
+                    return null;
+                }
+
+                SearchStrategy strategy = getStrategy(algorithm);
+                if (strategy == null) {
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(WordLadderGUI.this, "Invalid algorithm choice."));
+                    return null;
+                }
+
+                return strategy.findWordLadder(start, end, dictionary);
             }
 
-            SearchStrategy strategy = getStrategy(algorithm);
-            if (strategy == null) {
-                JOptionPane.showMessageDialog(this, "Invalid algorithm choice.");
-                return;
+            @Override
+            protected void done() {
+                try {
+                    // Get search results
+                    List<String> path = get();
+                    if (path != null) {
+                        // Calculate execution time
+                        long endTime = System.currentTimeMillis();
+                        long timeTaken = endTime - startTime;
+                        // Display results
+                        displayResults(path, timeTaken);
+                    }
+                } catch (InterruptedException | ExecutionException e) {
+                    JOptionPane.showMessageDialog(WordLadderGUI.this, "Error: " + e.getMessage());
+                }
             }
-
-            long startTime = System.currentTimeMillis();
-            List<String> path = strategy.findWordLadder(start, end, dictionary);
-            long endTime = System.currentTimeMillis();
-
-            displayResults(path, endTime - startTime);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-        }
+        }.execute();
     }
 
     private SearchStrategy getStrategy(String algorithm) {
