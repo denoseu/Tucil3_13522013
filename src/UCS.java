@@ -9,11 +9,15 @@ public class UCS implements SearchStrategy {
         frontier.add(new Node(start, null, 0));
         int exploredCount = 0;
 
+        System.out.println("Starting UCS from: " + start + " to: " + end);
+
         while (!frontier.isEmpty()) {
             Node current = frontier.poll();
             exploredCount++;
+            System.out.println("Exploring: " + current.getWord() + " with f(n) = g(n): " + current.getFn());
 
             if (current.getWord().equals(end)) {
+                System.out.println("Goal reached: " + current.getWord());
                 return new SearchResult(constructPath(current), exploredCount);
             }
 
@@ -21,6 +25,7 @@ public class UCS implements SearchStrategy {
                 visited.add(current.getWord());
                 for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
                     if (!visited.contains(neighbor)) {
+                        System.out.println("Adding to frontier: " + neighbor);
                         frontier.add(new Node(neighbor, current, current.getFn() + 1));
                     }
                 }

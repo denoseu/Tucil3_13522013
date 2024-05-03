@@ -6,7 +6,7 @@ public class AStar implements SearchStrategy {
     public SearchResult findWordLadder(String start, String end, Dictionary dictionary) {
         PriorityQueue<Node> frontier = new PriorityQueue<>(Comparator.comparingInt(Node::getFn));
         Map<String, Integer> costSoFar = new HashMap<>();
-        Map<String, Integer> heuristicMap = new HashMap<>(); // To store heuristic values for each node
+        Map<String, Integer> heuristicMap = new HashMap<>(); // simpan h(n) untuk setiap node
         int exploredCount = 0;
 
         int startHeuristic = heuristic(start, end);
@@ -14,18 +14,24 @@ public class AStar implements SearchStrategy {
         costSoFar.put(start, 0);
         heuristicMap.put(start, startHeuristic);
 
+        System.out.println("Starting A* from: " + start + " to: " + end);
+
         while (!frontier.isEmpty()) {
             Node current = frontier.poll();
             exploredCount++;
             int currentG = costSoFar.get(current.getWord());
-            // int currentH = heuristicMap.get(current.getWord());
+            int currentH = heuristicMap.get(current.getWord());
+
+            System.out.println("Exploring: " + current.getWord() + " with g(n): " + currentG +
+                               ", h(n): " + currentH + ", f(n): " + current.getFn());
 
             if (current.getWord().equals(end)) {
+                System.out.println("Goal reached: " + current.getWord());
                 return new SearchResult(constructPath(current), exploredCount);
             }
 
             for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
-                int newCost = currentG + 1; // Assuming each step has a cost of 1
+                int newCost = currentG + 1; // setiap step tu costnya 1
                 int neighborHeuristic = heuristic(neighbor, end);
                 int fCost = newCost + neighborHeuristic;
 
@@ -33,6 +39,8 @@ public class AStar implements SearchStrategy {
                     costSoFar.put(neighbor, newCost);
                     heuristicMap.put(neighbor, neighborHeuristic);
                     frontier.offer(new Node(neighbor, current, fCost));
+                    System.out.println("Adding to frontier: " + neighbor + " with g(n): " + newCost +
+                                       ", h(n): " + neighborHeuristic + ", f(n): " + fCost);
                 }
             }
         }

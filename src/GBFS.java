@@ -9,8 +9,11 @@ public class GBFS implements SearchStrategy {
         frontier.offer(new Node(start, null, 0));
         int exploredCount = 0;
 
+        System.out.println("Starting GBFS from: " + start + " to: " + end);
+
         while (!frontier.isEmpty()) {
             Node current = frontier.poll();
+            System.out.println("Exploring: " + current.getWord() + " with f(n) = heuristic h(n): " + heuristic(current.getWord(), end));
             exploredCount++;
 
             if (current.getWord().equals(end)) {
@@ -20,7 +23,10 @@ public class GBFS implements SearchStrategy {
             if (!visited.containsKey(current.getWord()) || visited.get(current.getWord()) > heuristic(current.getWord(), end)) {
                 visited.put(current.getWord(), heuristic(current.getWord(), end));
                 for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
-                    if (!visited.containsKey(neighbor) || visited.get(neighbor) > heuristic(neighbor, end)) {
+                    int neighborHeuristic = heuristic(neighbor, end);
+                    System.out.println("Checking neighbor: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
+                    if (!visited.containsKey(neighbor) || visited.get(neighbor) > neighborHeuristic) {
+                        System.out.println("Adding to frontier: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
                         frontier.offer(new Node(neighbor, current, 0));
                     }
                 }
