@@ -21,17 +21,17 @@ public class GBFS implements SearchStrategy {
                 return new SearchResult(constructPath(current), exploredCount);
             }
 
-            if (!visited.containsKey(current.getWord()) || visited.get(current.getWord()) > heuristic(current.getWord(), end)) {
-                visited.put(current.getWord(), heuristic(current.getWord(), end));
-                for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
-                    int neighborHeuristic = heuristic(neighbor, end);
-                    System.out.println("Checking neighbor: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
-                    if (!visited.containsKey(neighbor) || visited.get(neighbor) > neighborHeuristic) {
-                        System.out.println("Adding to frontier: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
-                        frontier.offer(new Node(neighbor, current, 0));
-                    }
+            // if (!visited.containsKey(current.getWord()) || visited.get(current.getWord()) > heuristic(current.getWord(), end)) {
+            visited.put(current.getWord(), heuristic(current.getWord(), end));
+            for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
+                int neighborHeuristic = heuristic(neighbor, end);
+                System.out.println("Checking neighbor: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
+                if (!visited.containsKey(neighbor) || visited.get(neighbor) > neighborHeuristic) {
+                    System.out.println("Adding to frontier: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
+                    frontier.offer(new Node(neighbor, current, 0));
                 }
             }
+            // }
         }
         return new SearchResult(Collections.emptyList(), exploredCount);
     }

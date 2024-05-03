@@ -26,12 +26,12 @@ public class WordLadderGUI extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        ImageIcon icon = new ImageIcon("src/assets/homepage.png");
+        ImageIcon icon = new ImageIcon("assets/homepage.png");
         backgroundImage = icon.getImage().getScaledInstance(1414, 2000, Image.SCALE_SMOOTH);
         backgroundPanel = new BackgroundPanel(backgroundImage);
         setContentPane(backgroundPanel);
 
-        ImageIcon startButtonIcon = new ImageIcon("src/assets/st2.png");
+        ImageIcon startButtonIcon = new ImageIcon("assets/st2.png");
         JButton openButton = new JButton(startButtonIcon);
         openButton.setBorderPainted(false);
         openButton.setContentAreaFilled(false);
@@ -53,14 +53,13 @@ public class WordLadderGUI extends JFrame {
     }
 
     private void createUI() {
-        System.out.println("Create UI method called");
         setTitle("Word Ladder Solver (Valentine's day Ed.)");
         backgroundPanel.removeAll();
 
-        ImageIcon icon = new ImageIcon("src/assets/background.png");
+        ImageIcon icon = new ImageIcon("assets/background.png");
         Image backgroundImage = icon.getImage().getScaledInstance(2000, 1414, Image.SCALE_SMOOTH);
 
-        ImageIcon resultIcon = new ImageIcon("src/assets/resultbg.png");
+        ImageIcon resultIcon = new ImageIcon("assets/resultbg.png");
         resultImage = resultIcon.getImage().getScaledInstance(1200, 300, Image.SCALE_SMOOTH);
 
         backgroundPanel = new BackgroundPanel(backgroundImage);
@@ -75,8 +74,8 @@ public class WordLadderGUI extends JFrame {
         startWordField.setBackground(Color.WHITE);
         endWordField.setBackground(Color.WHITE);
 
-        ImageIcon startWordIcon = new ImageIcon("src/assets/start.png");
-        ImageIcon endWordIcon = new ImageIcon("src/assets/end.png");
+        ImageIcon startWordIcon = new ImageIcon("assets/start.png");
+        ImageIcon endWordIcon = new ImageIcon("assets/end.png");
         JLabel startWordLabel = new JLabel(new ImageIcon(startWordIcon.getImage().getScaledInstance(170, 40, Image.SCALE_SMOOTH)));
         JLabel endWordLabel = new JLabel(new ImageIcon(endWordIcon.getImage().getScaledInstance(170, 40, Image.SCALE_SMOOTH)));
 
@@ -87,7 +86,7 @@ public class WordLadderGUI extends JFrame {
 
         String[] algorithms = {"Uniform Cost Search", "Greedy Best-First Search", "A* Search"};
         algorithmChoice = new JComboBox<>(algorithms);
-        ImageIcon algorithmIcon = new ImageIcon("src/assets/algorithm.png");
+        ImageIcon algorithmIcon = new ImageIcon("assets/algorithm.png");
         JLabel algorithmLabel = new JLabel(new ImageIcon(algorithmIcon.getImage().getScaledInstance(170, 40, Image.SCALE_SMOOTH)));
 
         inputPanel.add(algorithmLabel);
@@ -103,7 +102,7 @@ public class WordLadderGUI extends JFrame {
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.setOpaque(false);
-        ImageIcon searchButtonIcon = new ImageIcon("src/assets/search.png");
+        ImageIcon searchButtonIcon = new ImageIcon("assets/search.png");
         JButton searchButton = new JButton(new ImageIcon(searchButtonIcon.getImage().getScaledInstance(107, 45, Image.SCALE_SMOOTH)));
         searchButton.setBorderPainted(false);
         searchButton.setContentAreaFilled(false);
@@ -163,8 +162,8 @@ public class WordLadderGUI extends JFrame {
         new SwingWorker<SearchResult, Void>() {
             @Override
             protected SearchResult doInBackground() throws Exception {
-                Dictionary dictionary = new Dictionary("src/dictionary.txt");
-                if (!dictionary.isWord(start) || !dictionary.isWord(end)) {
+                Dictionary dictionary = new Dictionary("dictionary.txt");
+                if (!dictionary.isWord(start.toUpperCase()) || !dictionary.isWord(end.toUpperCase())) {
                     SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(WordLadderGUI.this, "Both words must be in the dictionary."));
                     return null;
                 }
@@ -178,7 +177,7 @@ public class WordLadderGUI extends JFrame {
                 // Set loading message here, after checks
                 SwingUtilities.invokeLater(() -> resultTextPane.setText("<html><div style='text-align: center; padding-top: 120px; font-size: 18px; color: #FFFDF4;'>Loading...</div></html>"));
         
-                return strategy.findWordLadder(start, end, dictionary);
+                return strategy.findWordLadder(start.toUpperCase(), end.toUpperCase(), dictionary);
             }
         
             @Override

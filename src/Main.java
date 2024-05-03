@@ -10,7 +10,7 @@ public class Main {
             System.out.println("Welcome to the CLI Word Ladder Solver!");
 
             // load dictionary
-            Dictionary dictionary = new Dictionary("src/dictionary.txt");
+            Dictionary dictionary = new Dictionary("dictionary.txt");
 
             System.out.print("Enter start word: ");
             String start = scanner.nextLine();
@@ -18,7 +18,7 @@ public class Main {
             String end = scanner.nextLine();
 
             // cek apakah katanya ada di dictionary
-            if (!dictionary.isWord(start) || !dictionary.isWord(end)) {
+            if (!dictionary.isWord(start.toUpperCase()) || !dictionary.isWord(end.toUpperCase())) {
                 System.out.println("Both words must be in the dictionary.");
                 return;
             }
@@ -48,7 +48,7 @@ public class Main {
             }
 
             long startTime = System.currentTimeMillis();
-            SearchResult searchResult = strategy.findWordLadder(start, end, dictionary);
+            SearchResult searchResult = strategy.findWordLadder(start.toUpperCase(), end.toUpperCase(), dictionary);
             long endTime = System.currentTimeMillis();
             List<String> path = searchResult.getPath();
 
