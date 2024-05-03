@@ -2,7 +2,7 @@
 <h1 align="center"> Penyelesaian Permainan Word Ladder Menggunakan Algoritma UCS, Greedy Best First Search, dan A*</h1>
 
 <div align="center">
-    <img src="readme1.png" alt="readme1" width="400"/>
+    <img src="readme1.png" alt="readme1" width="600"/>
 </div>
 
 ## Kenalan, yuk!
@@ -61,7 +61,7 @@ diharapkan solusi optimal, yaitu solusi yang meminimalkan banyaknya kata yang di
 ```
 
 <div align="center">
-    <img src="readme2.png" alt="readme1" width="400"/>
+    <img src="readme2.png" alt="readme1" width="600"/>
 </div>
 
 ## Bagaimana menjalankan file executable?
