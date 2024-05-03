@@ -92,5 +92,5 @@ diharapkan solusi optimal, yaitu solusi yang meminimalkan banyaknya kata yang di
 
 <br>
 <div align="center">
-    <img src="readme3.png" alt="readme1" width="200"/>
+    <img src="readme4.png" alt="readme1" width="500"/>
 </div>
