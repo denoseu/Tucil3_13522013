@@ -21,7 +21,7 @@ public class WordLadderGUI extends JFrame {
     }
 
     private void createHomePageUI() {
-        setTitle("Welcome to Word Ladder Solver");
+        setTitle("Word Ladder Solver (Valentine's day Ed.)");
         setSize(1414, 2000);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -31,7 +31,13 @@ public class WordLadderGUI extends JFrame {
         backgroundPanel = new BackgroundPanel(backgroundImage);
         setContentPane(backgroundPanel);
 
-        JButton openButton = new JButton("Start");
+        ImageIcon startButtonIcon = new ImageIcon("src/assets/st2.png");
+        JButton openButton = new JButton(startButtonIcon);
+        openButton.setBorderPainted(false);
+        openButton.setContentAreaFilled(false);
+        openButton.setFocusPainted(false);
+        openButton.setBorder(BorderFactory.createEmptyBorder());
+        openButton.setContentAreaFilled(false);
         openButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -43,10 +49,12 @@ public class WordLadderGUI extends JFrame {
         buttonPanel.setOpaque(false);
         buttonPanel.add(openButton);
         backgroundPanel.add(buttonPanel, BorderLayout.SOUTH);
+
     }
 
     private void createUI() {
-        setTitle("Denise's Word Ladder Solver (Valentine's day Ed.)");
+        System.out.println("Create UI method called");
+        setTitle("Word Ladder Solver (Valentine's day Ed.)");
         backgroundPanel.removeAll();
 
         ImageIcon icon = new ImageIcon("src/assets/background.png");
