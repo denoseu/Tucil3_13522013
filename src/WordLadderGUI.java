@@ -14,16 +14,40 @@ public class WordLadderGUI extends JFrame {
     private JComboBox<String> algorithmChoice;
     private JTextPane resultTextPane;
     private Image resultImage;
+    private Image backgroundImage;
 
     public WordLadderGUI() {
-        createUI();
+        createHomePageUI();
+    }
+
+    private void createHomePageUI() {
+        setTitle("Welcome to Word Ladder Solver");
+        setSize(1414, 2000);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        ImageIcon icon = new ImageIcon("src/assets/homepage.png");
+        backgroundImage = icon.getImage().getScaledInstance(1414, 2000, Image.SCALE_SMOOTH);
+        backgroundPanel = new BackgroundPanel(backgroundImage);
+        setContentPane(backgroundPanel);
+
+        JButton openButton = new JButton("Start");
+        openButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createUI();
+            }
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.add(openButton);
+        backgroundPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
     private void createUI() {
         setTitle("Denise's Word Ladder Solver (Valentine's day Ed.)");
-        setSize(1414, 2000);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        backgroundPanel.removeAll();
 
         ImageIcon icon = new ImageIcon("src/assets/background.png");
         Image backgroundImage = icon.getImage().getScaledInstance(2000, 1414, Image.SCALE_SMOOTH);
@@ -114,6 +138,9 @@ public class WordLadderGUI extends JFrame {
         gbc.gridy = 2;
         gbc.insets = new Insets(10, 0, 0, 0);
         backgroundPanel.add(resultPanel, gbc);
+
+        backgroundPanel.revalidate();
+        backgroundPanel.repaint();
     }
 
     // handle search action
