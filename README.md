@@ -14,7 +14,7 @@
 Word ladder adalah salah satu permainan kata yang terkenal dimana pemain diberikan dua kata yang disebut sebagai start word dan end word. Untuk memenangkan permainan, pemain harus menemukan rantai kata yang dapat menghubungkan antara start word dan end word tersebut, dimana banyaknya huruf pada start word dan end word selalu sama. Tiap kata yang berdekatan dalam rantai kata tersebut hanya boleh berbeda satu huruf saja. Pada permainan ini,
 diharapkan solusi optimal, yaitu solusi yang meminimalkan banyaknya kata yang dimasukkan pada rantai kata. Program ini akan membantu pemain menyelesaikan permainan word ladder dengan memberikan solusi yang optimal.
 
-## Struktur Program
+## Ayo peek struktur programnya :0
 
 ```
 │
@@ -83,7 +83,7 @@ diharapkan solusi optimal, yaitu solusi yang meminimalkan banyaknya kata yang di
 6. Klik enter/return.
 7. Jendela program dengan GUI seharusnya muncul dan bisa langsung digunakan.
 
-## How to Use
+## Cara pakainya gimana, nih?
 1. Setelah windows GUI muncul, klik tombol start.
 2. Masukkan start word dan end word.
 3. Pilih algoritma yang diinginkan (UCS, G-BFS, ataupun A*).
