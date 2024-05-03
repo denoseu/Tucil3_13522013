@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class WordLadderGUI extends JFrame {
+public class DensuGUI extends JFrame {
     private BackgroundPanel backgroundPanel;
     private JTextField startWordField;
     private JTextField endWordField;
@@ -16,7 +16,7 @@ public class WordLadderGUI extends JFrame {
     private Image resultImage;
     private Image backgroundImage;
 
-    public WordLadderGUI() {
+    public DensuGUI() {
         createHomePageUI();
     }
 
@@ -164,13 +164,13 @@ public class WordLadderGUI extends JFrame {
             protected SearchResult doInBackground() throws Exception {
                 Dictionary dictionary = new Dictionary("dictionary.txt");
                 if (!dictionary.isWord(start.toUpperCase()) || !dictionary.isWord(end.toUpperCase())) {
-                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(WordLadderGUI.this, "Both words must be in the dictionary."));
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(DensuGUI.this, "Both words must be in the dictionary."));
                     return null;
                 }
         
                 SearchStrategy strategy = getStrategy(algorithm);
                 if (strategy == null) {
-                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(WordLadderGUI.this, "Invalid algorithm choice."));
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(DensuGUI.this, "Invalid algorithm choice."));
                     return null;
                 }
         
@@ -192,7 +192,7 @@ public class WordLadderGUI extends JFrame {
                         displayResults(result.getPath(), timeTaken, result.getNodesExplored());
                     }
                 } catch (InterruptedException | ExecutionException e) {
-                    JOptionPane.showMessageDialog(WordLadderGUI.this, "Error: " + e.getMessage());
+                    JOptionPane.showMessageDialog(DensuGUI.this, "Error: " + e.getMessage());
                 }
             }
         }.execute();
@@ -273,7 +273,7 @@ public class WordLadderGUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new WordLadderGUI().setVisible(true));
+        SwingUtilities.invokeLater(() -> new DensuGUI().setVisible(true));
     }
 
     // custom jpanel utk bg image
