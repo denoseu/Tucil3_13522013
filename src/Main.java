@@ -51,8 +51,9 @@ public class Main {
 
             // Execute the selected algorithm
             long startTime = System.currentTimeMillis();
-            List<String> path = strategy.findWordLadder(start, end, dictionary);
+            SearchResult searchResult = strategy.findWordLadder(start, end, dictionary);
             long endTime = System.currentTimeMillis();
+            List<String> path = searchResult.getPath();
 
             // Output results
             if (path != null && !path.isEmpty()) {
@@ -62,6 +63,7 @@ public class Main {
             } else {
                 System.out.println("No path found between the given words.");
             }
+            System.out.println("Nodes explored: " + searchResult.getNodesExplored());
             System.out.println("Execution time: " + (endTime - startTime) + " ms");
 
         } catch (IOException e) {

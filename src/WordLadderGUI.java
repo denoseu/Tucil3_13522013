@@ -123,38 +123,39 @@ public class WordLadderGUI extends JFrame {
         String algorithm = (String) algorithmChoice.getSelectedItem();
     
         long startTime = System.currentTimeMillis();
+
         // Using SwingWorker to perform search in the background
-        new SwingWorker<List<String>, Void>() {
+        new SwingWorker<SearchResult, Void>() {
             @Override
-            protected List<String> doInBackground() throws Exception {
+            protected SearchResult doInBackground() throws Exception {
                 Dictionary dictionary = new Dictionary("src/dictionary.txt");
                 if (!dictionary.isWord(start) || !dictionary.isWord(end)) {
                     SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(WordLadderGUI.this, "Both words must be in the dictionary."));
                     return null;
                 }
-    
+        
                 SearchStrategy strategy = getStrategy(algorithm);
                 if (strategy == null) {
                     SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(WordLadderGUI.this, "Invalid algorithm choice."));
                     return null;
                 }
-    
+        
                 // Set loading message here, after checks
                 SwingUtilities.invokeLater(() -> resultTextPane.setText("<html><div style='text-align: center; padding-top: 120px; font-size: 18px; color: #FFFDF4;'>Loading...</div></html>"));
-    
+        
                 return strategy.findWordLadder(start, end, dictionary);
             }
-    
+        
             @Override
             protected void done() {
                 try {
                     // get search results
-                    List<String> path = get();
-                    if (path != null) {
+                    SearchResult result = get();
+                    if (result != null) {
                         // hitung waktu
                         long endTime = System.currentTimeMillis();
                         long timeTaken = endTime - startTime;
-                        displayResults(path, timeTaken);
+                        displayResults(result.getPath(), timeTaken, result.getNodesExplored());
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     JOptionPane.showMessageDialog(WordLadderGUI.this, "Error: " + e.getMessage());
@@ -177,11 +178,11 @@ public class WordLadderGUI extends JFrame {
     }
 
     // display hasil
-    private void displayResults(List<String> path, long timeTaken) {
+    private void displayResults(List<String> path, long timeTaken, int nodesExplored) {
         StringBuilder sb = new StringBuilder("<html>");
-    
+
         sb.append("<div style='text-align: center; padding-top: 10px; font-size: 18px; color: #FFFDF4;'>Path found:<br></div>");
-    
+
         // keep semua isi yang lain
         sb.append("<div style='text-align: center; padding-top: 20px; font-size: 18px;'>");
         
@@ -193,10 +194,11 @@ public class WordLadderGUI extends JFrame {
             }
         }
         
-        // div utk total steps dan exe time
+        // div utk total steps, nodes explored, dan exe time
         sb.append("<div style='font-size: 14px; color: #FFFDF4;'>")
-          .append("Total steps: ").append(path.size() - 1)
-          .append("<br>Execution time: ").append(timeTaken).append(" ms<br><br</div>");
+        .append("Total steps: ").append(path.size() - 1)
+        .append("<br>Nodes explored: ").append(nodesExplored)
+        .append("<br>Execution time: ").append(timeTaken).append(" ms<br><br</div>");
         
         // close main dan html tags
         sb.append("</div></html>");

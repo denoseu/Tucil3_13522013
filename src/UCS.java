@@ -3,34 +3,30 @@ import java.util.*;
 
 public class UCS implements SearchStrategy {
     @Override
-    public List<String> findWordLadder(String start, String end, Dictionary dictionary) {
+    public SearchResult findWordLadder(String start, String end, Dictionary dictionary) {
         PriorityQueue<Node> frontier = new PriorityQueue<>(Comparator.comparingInt(Node::getFn));
         Set<String> visited = new HashSet<>();
         frontier.add(new Node(start, null, 0));
-
-        System.out.println("Starting UCS from: " + start + " to: " + end);
+        int exploredCount = 0;
 
         while (!frontier.isEmpty()) {
             Node current = frontier.poll();
-            System.out.println("Exploring: " + current.getWord() + " with f(n) = g(n): " + current.getFn());
+            exploredCount++;
 
             if (current.getWord().equals(end)) {
-                System.out.println("Goal reached: " + current.getWord());
-                return constructPath(current);
+                return new SearchResult(constructPath(current), exploredCount);
             }
 
             if (!visited.contains(current.getWord())) {
                 visited.add(current.getWord());
                 for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
                     if (!visited.contains(neighbor)) {
-                        System.out.println("Adding to frontier: " + neighbor);
                         frontier.add(new Node(neighbor, current, current.getFn() + 1));
                     }
                 }
             }
         }
-        System.out.println("No path found");
-        return Collections.emptyList();
+        return new SearchResult(Collections.emptyList(), exploredCount);
     }
 
     private List<String> constructPath(Node node) {
