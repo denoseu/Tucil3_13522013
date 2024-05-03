@@ -135,13 +135,12 @@ public class WordLadderGUI extends JFrame {
         };
     }
 
-    // Method to handle the search action
+    // handle search action
     private void performSearch() {
         String start = startWordField.getText();
         String end = endWordField.getText();
         String algorithm = (String) algorithmChoice.getSelectedItem();
         try {
-            // Assuming Dictionary and SearchStrategy classes are correctly implemented
             Dictionary dictionary = new Dictionary("src/dictionary.txt");
             if (!dictionary.isWord(start) || !dictionary.isWord(end)) {
                 JOptionPane.showMessageDialog(this, "Both words must be in the dictionary.");
@@ -164,7 +163,6 @@ public class WordLadderGUI extends JFrame {
         }
     }
 
-    // Helper method to select the appropriate search strategy
     private SearchStrategy getStrategy(String algorithm) {
         switch (algorithm) {
             case "Uniform Cost Search":
@@ -178,7 +176,7 @@ public class WordLadderGUI extends JFrame {
         }
     }
 
-    // Helper method to display results in the GUI
+    // display hasil
     private void displayResults(List<String> path, long timeTaken) {
         StringBuilder sb = new StringBuilder("<html>");
     
@@ -198,19 +196,19 @@ public class WordLadderGUI extends JFrame {
         // div utk total steps dan exe time
         sb.append("<div style='font-size: 14px; color: #FFFDF4;'>")
           .append("Total steps: ").append(path.size() - 1)
-          .append("<br>Execution time: ").append(timeTaken).append(" ms<br></div>");
+          .append("<br>Execution time: ").append(timeTaken).append(" ms<br><br</div>");
         
-        // Closing the main and html tags
+        // close main dan html tags
         sb.append("</div></html>");
         
-        // Set the HTML content to the JTextPane
+        // lihat isi htmlnya di textpane
         resultTextPane.setText(sb.toString());
     }
 
     private String formatInitialWord(String word) {
         StringBuilder sb = new StringBuilder("<div style='letter-spacing: 10px;'>"); // Adding space between letter boxes
         for (char c : word.toCharArray()) {
-            // Adding a non-breaking space before and after each character
+            // nbsp buat spasi
             sb.append("<span style='border:2px solid black; background-color: #FFFDF4; padding:15px; margin:5px; font-size: 20px; display: inline-block; width:40px; height:40px; line-height:40px; text-align:center;'>&nbsp;")
               .append(c).append("&nbsp;</span>");
         }
@@ -219,10 +217,10 @@ public class WordLadderGUI extends JFrame {
     }
     
     private String formatWordTransition(String oldWord, String newWord) {
-        StringBuilder sb = new StringBuilder("<div style='letter-spacing: 10px;'>"); // Adding space between letter boxes
+        StringBuilder sb = new StringBuilder("<div style='letter-spacing: 10px;'>"); // space between letters
         for (int i = 0; i < oldWord.length(); i++) {
             char newChar = newWord.charAt(i);
-            String bgColor = oldWord.charAt(i) == newChar ? "#FFFDF4" : "#F69DA2"; // Background color change for transition
+            String bgColor = oldWord.charAt(i) == newChar ? "#FFFDF4" : "#F69DA2"; // ganti warna buat yg berubah
             sb.append("<span style='border:2px solid black; background-color:")
               .append(bgColor).append("; padding:15px; margin:5px; font-size: 20px; display: inline-block; width:40px; height:40px; line-height:40px; text-align:center;'>&nbsp;")
               .append(newChar).append("&nbsp;</span>");
@@ -235,7 +233,7 @@ public class WordLadderGUI extends JFrame {
         SwingUtilities.invokeLater(() -> new WordLadderGUI().setVisible(true));
     }
 
-    // Custom JPanel for background image
+    // custom jpanel utk bg image
     private class BackgroundPanel extends JPanel {
         private Image image;
 
