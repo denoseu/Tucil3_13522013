@@ -18,7 +18,7 @@ public class AStar implements SearchStrategy {
             Node current = frontier.poll();
             exploredCount++;
             int currentG = costSoFar.get(current.getWord());
-            int currentH = heuristicMap.get(current.getWord());
+            // int currentH = heuristicMap.get(current.getWord());
 
             if (current.getWord().equals(end)) {
                 return new SearchResult(constructPath(current), exploredCount);

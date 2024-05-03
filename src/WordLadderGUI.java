@@ -181,11 +181,18 @@ public class WordLadderGUI extends JFrame {
     private void displayResults(List<String> path, long timeTaken, int nodesExplored) {
         StringBuilder sb = new StringBuilder("<html>");
 
+        // check apakah ada path
+        if (path.isEmpty()) {
+            sb.append("<div style='text-align: center; padding-top: 120px; font-size: 18px; color: #FFFDF4;'>No path found between the given words.</div></html>");
+            resultTextPane.setText(sb.toString());
+            return;
+        }
+
         sb.append("<div style='text-align: center; padding-top: 10px; font-size: 18px; color: #FFFDF4;'>Path found:<br></div>");
 
         // keep semua isi yang lain
         sb.append("<div style='text-align: center; padding-top: 20px; font-size: 18px;'>");
-        
+
         for (int i = 0; i < path.size(); i++) {
             if (i > 0) {
                 sb.append(formatWordTransition(path.get(i - 1), path.get(i)));
