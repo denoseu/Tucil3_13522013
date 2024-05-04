@@ -162,7 +162,28 @@ public class DensuGUI extends JFrame {
         new SwingWorker<SearchResult, Void>() {
             @Override
             protected SearchResult doInBackground() throws Exception {
-                Dictionary dictionary = new Dictionary("dictionary.txt");
+                Dictionary dictionary = new Dictionary("dictionaryOracle.txt");
+                // jika hanya start yang kosong
+                if (start.isEmpty() && !end.isEmpty()) {
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(DensuGUI.this, "Please enter a start word."));
+                    return null;
+                }
+                // jika hanya end yang kosong
+                if (!start.isEmpty() && end.isEmpty()) {
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(DensuGUI.this, "Please enter an end word."));
+                    return null;
+                }
+                // jika start dan end kosong
+                if (start.isEmpty() && end.isEmpty()) {
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(DensuGUI.this, "Please enter both start and end words."));
+                    return null;
+                }
+                // jika length start dan end tidak sama
+                if (start.length() != end.length()) {
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(DensuGUI.this, "Start and end words must be of the same length."));
+                    return null;
+                }
+                // jika tidak ada di dictionary
                 if (!dictionary.isWord(start.toUpperCase()) || !dictionary.isWord(end.toUpperCase())) {
                     SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(DensuGUI.this, "Both words must be in the dictionary."));
                     return null;

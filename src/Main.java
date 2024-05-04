@@ -10,7 +10,7 @@ public class Main {
             System.out.println("Welcome to the CLI Word Ladder Solver!");
 
             // load dictionary
-            Dictionary dictionary = new Dictionary("dictionary.txt");
+            Dictionary dictionary = new Dictionary("src/dictionary.txt");
 
             System.out.print("Enter start word: ");
             String start = scanner.nextLine();

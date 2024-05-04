@@ -80,7 +80,7 @@ public class AStar implements SearchStrategy {
                     }
                 }
             }
-            chars[i] = originalChar; // Restore original character
+            chars[i] = originalChar;
         }
         return neighbors;
     }
