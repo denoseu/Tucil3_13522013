@@ -1,46 +1,36 @@
 package src;
+
 import java.util.*;
 
 public class AStar implements SearchStrategy {
     @Override
     public SearchResult findWordLadder(String start, String end, Dictionary dictionary) {
-        PriorityQueue<Node> frontier = new PriorityQueue<>(Comparator.comparingInt(Node::getFn));
-        Map<String, Integer> costSoFar = new HashMap<>();
-        Map<String, Integer> heuristicMap = new HashMap<>(); // simpan h(n) untuk setiap node
+        PriorityQueue<Node> frontier = new PriorityQueue<>(Comparator.comparingInt(node -> node.getFn() + heuristic(node.getWord(), end)));
+        Set<String> visited = new HashSet<>();
+        frontier.add(new Node(start, null, 0));
         int exploredCount = 0;
-
-        int startHeuristic = heuristic(start, end);
-        frontier.offer(new Node(start, null, startHeuristic));
-        costSoFar.put(start, 0);
-        heuristicMap.put(start, startHeuristic);
 
         System.out.println("Starting A* from: " + start + " to: " + end);
 
         while (!frontier.isEmpty()) {
             Node current = frontier.poll();
             exploredCount++;
-            int currentG = costSoFar.get(current.getWord());
-            int currentH = heuristicMap.get(current.getWord());
-
-            System.out.println("Exploring: " + current.getWord() + " with g(n): " + currentG +
-                               ", h(n): " + currentH + ", f(n): " + current.getFn());
+            System.out.println("Exploring: " + current.getWord() + " with f(n) = g(n) + h(n): " + (current.getFn() + heuristic(current.getWord(), end)));
 
             if (current.getWord().equals(end)) {
                 System.out.println("Goal reached: " + current.getWord());
                 return new SearchResult(constructPath(current), exploredCount);
             }
 
-            for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
-                int newCost = currentG + 1; // setiap step tu costnya 1
-                int neighborHeuristic = heuristic(neighbor, end);
-                int fCost = newCost + neighborHeuristic;
-
-                if (!costSoFar.containsKey(neighbor) || newCost < costSoFar.get(neighbor)) {
-                    costSoFar.put(neighbor, newCost);
-                    heuristicMap.put(neighbor, neighborHeuristic);
-                    frontier.offer(new Node(neighbor, current, fCost));
-                    System.out.println("Adding to frontier: " + neighbor + " with g(n): " + newCost +
-                                       ", h(n): " + neighborHeuristic + ", f(n): " + fCost);
+            if (!visited.contains(current.getWord())) {
+                visited.add(current.getWord());
+                for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
+                    if (!visited.contains(neighbor)) {
+                        int gn = current.getFn() + 1;
+                        int hn = heuristic(neighbor, end);
+                        int fn = gn + hn;
+                        frontier.add(new Node(neighbor, current, fn));
+                    }
                 }
             }
         }
@@ -58,9 +48,9 @@ public class AStar implements SearchStrategy {
     }
 
     private List<String> constructPath(Node node) {
-        LinkedList<String> path = new LinkedList<>();
+        List<String> path = new LinkedList<>();
         while (node != null) {
-            path.addFirst(node.getWord());
+            path.add(0, node.getWord());
             node = node.getParent();
         }
         return path;
@@ -80,7 +70,7 @@ public class AStar implements SearchStrategy {
                     }
                 }
             }
-            chars[i] = originalChar;
+            chars[i] = originalChar; // restore original character
         }
         return neighbors;
     }
