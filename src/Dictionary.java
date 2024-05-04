@@ -10,13 +10,13 @@ public class Dictionary {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         String line;
         while ((line = reader.readLine()) != null) {
-            words.add(line.trim());
+            words.add(line.trim().toUpperCase()); // in case dictionarynya isinya ga uppercase
         }
         reader.close();
     }
 
     public boolean isWord(String word) {
-        return words.contains(word);
+        return words.contains(word.toUpperCase());
     }
 
     public void printDictionary() {
