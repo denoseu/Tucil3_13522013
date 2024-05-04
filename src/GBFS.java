@@ -6,7 +6,8 @@ public class GBFS implements SearchStrategy {
     public SearchResult findWordLadder(String start, String end, Dictionary dictionary) {
         // prio queue untuk simpen semua simpul hidup (yang akan diekspansi) -> urut berdasarkan h(n)
         PriorityQueue<Node> frontier = new PriorityQueue<>(Comparator.comparingInt(node -> heuristic(node.getWord(), end)));
-        Map<String, Integer> visited = new HashMap<>();
+        // Map<String, Integer> visited = new HashMap<>();
+        Set<String> visited = new HashSet<>();
         frontier.offer(new Node(start, null, 0));
         int exploredCount = 0;
 
@@ -22,13 +23,13 @@ public class GBFS implements SearchStrategy {
             }
 
             // if (!visited.containsKey(current.getWord()) || visited.get(current.getWord()) > heuristic(current.getWord(), end)) {
-            visited.put(current.getWord(), heuristic(current.getWord(), end));
+            visited.add(current.getWord());
             for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
-                int neighborHeuristic = heuristic(neighbor, end);
+                if (!visited.contains(neighbor)) {
+                    int fn = heuristic(neighbor, end);
                 // System.out.println("Checking neighbor: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
-                if (!visited.containsKey(neighbor) || visited.get(neighbor) > neighborHeuristic) {
                     // System.out.println("Adding to frontier: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
-                    frontier.offer(new Node(neighbor, current, 0));
+                    frontier.add(new Node(neighbor, current, fn));
                 }
             }
             // }

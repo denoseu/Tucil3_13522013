@@ -22,17 +22,17 @@ public class AStar implements SearchStrategy {
                 return new SearchResult(constructPath(current), exploredCount);
             }
 
-            if (!visited.contains(current.getWord())) {
-                visited.add(current.getWord());
-                for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
-                    if (!visited.contains(neighbor)) {
-                        int gn = current.getFn() + 1;
-                        int hn = heuristic(neighbor, end);
-                        int fn = gn + hn;
-                        frontier.add(new Node(neighbor, current, fn));
-                    }
+            // if (!visited.contains(current.getWord())) {
+            visited.add(current.getWord());
+            for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
+                if (!visited.contains(neighbor)) {
+                    int gn = current.getFn() + 1;
+                    int hn = heuristic(neighbor, end);
+                    int fn = gn + hn;
+                    frontier.add(new Node(neighbor, current, fn));
                 }
             }
+            // }
         }
         return new SearchResult(Collections.emptyList(), exploredCount);
     }
