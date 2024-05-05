@@ -24,18 +24,18 @@ public class AStar implements SearchStrategy {
             }
 
             // cek dia dah pernah di ekspansi apa belum, kalau udah ga usah lagi
-            if (!visited.contains(current.getWord())) {
-                visited.add(current.getWord());
-                for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
-                    if (!visited.contains(neighbor)) {
-                        // gn nya + 1 karena ada perbedaan 1 huruf
-                        int gn = current.getFn() + 1;
-                        int hn = heuristic(neighbor, end);
-                        int fn = gn + hn;
-                        frontier.add(new Node(neighbor, current, fn));
-                    }
+            // if (!visited.contains(current.getWord())) {
+            visited.add(current.getWord());
+            for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
+                if (!visited.contains(neighbor)) {
+                    // gn nya + 1 karena ada perbedaan 1 huruf
+                    int gn = current.getFn() + 1;
+                    int hn = heuristic(neighbor, end);
+                    int fn = gn + hn;
+                    frontier.add(new Node(neighbor, current, fn));
                 }
             }
+            // }
         }
         return new SearchResult(Collections.emptyList(), exploredCount);
     }

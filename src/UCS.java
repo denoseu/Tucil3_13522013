@@ -25,18 +25,17 @@ public class UCS implements SearchStrategy {
                 return new SearchResult(constructPath(current), exploredCount);
             }
 
-            // ekspansi node, kalau udah diekspansi, engga usah lagi
-            if (!visited.contains(current.getWord())) {
-                visited.add(current.getWord());
-                for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
-                    // cek apakah tetangga ini sudah pernah diekspansi sebelumnya
-                    if (!visited.contains(neighbor)) {
-                        // kalau belum, dia ditambahin ke frontier
-                        System.out.println("Adding to frontier: " + neighbor);
-                        frontier.add(new Node(neighbor, current, current.getFn() + 1));
-                    }
+            // if (!visited.contains(current.getWord())) {
+            visited.add(current.getWord());
+            for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
+                // cek apakah tetangga ini sudah pernah diekspansi sebelumnya
+                if (!visited.contains(neighbor)) {
+                    // kalau belum, dia ditambahin ke frontier
+                    System.out.println("Adding to frontier: " + neighbor);
+                    frontier.add(new Node(neighbor, current, current.getFn() + 1));
                 }
             }
+            // }
         }
         return new SearchResult(Collections.emptyList(), exploredCount);
     }
