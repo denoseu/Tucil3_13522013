@@ -22,17 +22,18 @@ public class GBFS implements SearchStrategy {
                 return new SearchResult(constructPath(current), exploredCount);
             }
 
-            // if (!visited.containsKey(current.getWord()) || visited.get(current.getWord()) > heuristic(current.getWord(), end)) {
-            visited.add(current.getWord());
-            for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
-                if (!visited.contains(neighbor)) {
-                    int fn = heuristic(neighbor, end);
-                // System.out.println("Checking neighbor: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
-                    // System.out.println("Adding to frontier: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
-                    frontier.add(new Node(neighbor, current, fn));
+            // cek dia udah pernah diekspansi atau belum, kalau sudah tidak usah lagi
+            if (!visited.contains(current.getWord())) {
+                visited.add(current.getWord());
+                for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
+                    if (!visited.contains(neighbor)) {
+                        int fn = heuristic(neighbor, end);
+                    // System.out.println("Checking neighbor: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
+                        // System.out.println("Adding to frontier: " + neighbor + " with heuristic h(n): " + neighborHeuristic);
+                        frontier.add(new Node(neighbor, current, fn));
+                    }
                 }
             }
-            // }
         }
         return new SearchResult(Collections.emptyList(), exploredCount);
     }

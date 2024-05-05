@@ -25,8 +25,8 @@ public class UCS implements SearchStrategy {
                 return new SearchResult(constructPath(current), exploredCount);
             }
 
-            // ekspansi node, karena meskipun dia sudah diekspansi sebelumnya, dia tetap saja perlu diekspansi lagi karena berasal dari node berbeda
-            // if (!visited.contains(current.getWord())) {
+            // ekspansi node, kalau udah diekspansi, engga usah lagi
+            if (!visited.contains(current.getWord())) {
                 visited.add(current.getWord());
                 for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
                     // cek apakah tetangga ini sudah pernah diekspansi sebelumnya
@@ -36,7 +36,7 @@ public class UCS implements SearchStrategy {
                         frontier.add(new Node(neighbor, current, current.getFn() + 1));
                     }
                 }
-            // }
+            }
         }
         return new SearchResult(Collections.emptyList(), exploredCount);
     }

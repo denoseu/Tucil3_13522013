@@ -5,6 +5,7 @@ import java.util.*;
 public class AStar implements SearchStrategy {
     @Override
     public SearchResult findWordLadder(String start, String end, Dictionary dictionary) {
+        // prio queue untuk simpen semua simpul hidup (yang akan diekspansi) -> urut berdasarkan f(n) = g(n) + h(n)
         PriorityQueue<Node> frontier = new PriorityQueue<>(Comparator.comparingInt(node -> node.getFn() + heuristic(node.getWord(), end)));
         Set<String> visited = new HashSet<>();
         frontier.add(new Node(start, null, 0));
@@ -22,17 +23,19 @@ public class AStar implements SearchStrategy {
                 return new SearchResult(constructPath(current), exploredCount);
             }
 
-            // if (!visited.contains(current.getWord())) {
-            visited.add(current.getWord());
-            for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
-                if (!visited.contains(neighbor)) {
-                    int gn = current.getFn() + 1;
-                    int hn = heuristic(neighbor, end);
-                    int fn = gn + hn;
-                    frontier.add(new Node(neighbor, current, fn));
+            // cek dia dah pernah di ekspansi apa belum, kalau udah ga usah lagi
+            if (!visited.contains(current.getWord())) {
+                visited.add(current.getWord());
+                for (String neighbor : getNeighbors(current.getWord(), dictionary)) {
+                    if (!visited.contains(neighbor)) {
+                        // gn nya + 1 karena ada perbedaan 1 huruf
+                        int gn = current.getFn() + 1;
+                        int hn = heuristic(neighbor, end);
+                        int fn = gn + hn;
+                        frontier.add(new Node(neighbor, current, fn));
+                    }
                 }
             }
-            // }
         }
         return new SearchResult(Collections.emptyList(), exploredCount);
     }
