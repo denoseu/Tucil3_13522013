@@ -11,8 +11,7 @@
 | 13522013 |        Denise Felicia Tiowanni         |
 
 ## Ini program apa, sih?
-Word ladder adalah salah satu permainan kata yang terkenal dimana pemain diberikan dua kata yang disebut sebagai start word dan end word. Untuk memenangkan permainan, pemain harus menemukan rantai kata yang dapat menghubungkan antara start word dan end word tersebut, dimana banyaknya huruf pada start word dan end word selalu sama. Tiap kata yang berdekatan dalam rantai kata tersebut hanya boleh berbeda satu huruf saja. Pada permainan ini,
-diharapkan solusi optimal, yaitu solusi yang meminimalkan banyaknya kata yang dimasukkan pada rantai kata. Program ini akan membantu pemain menyelesaikan permainan word ladder dengan memberikan solusi yang optimal.
+Word ladder adalah salah satu permainan kata yang terkenal dimana pemain diberikan dua kata yang disebut sebagai start word dan end word. Untuk memenangkan permainan, pemain harus menemukan rantai kata yang dapat menghubungkan antara start word dan end word tersebut, dimana banyaknya huruf pada start word dan end word selalu sama. Tiap kata yang berdekatan dalam rantai kata tersebut hanya boleh berbeda satu huruf saja. Pada permainan ini, diharapkan solusi optimal, yaitu solusi yang meminimalkan banyaknya kata yang dimasukkan pada rantai kata. Program ini akan membantu pemain menyelesaikan permainan word ladder dengan memberikan solusi yang optimal.
 
 ## Ayo peek struktur programnya :0
 
@@ -26,6 +25,7 @@ diharapkan solusi optimal, yaitu solusi yang meminimalkan banyaknya kata yang di
 ├── src
 │   ├── assets
 │   ├── dictionary.txt
+│   ├── dictionaryOracle.txt
 │   ├── Dictionary.java
 │   ├── Node.java
 │   ├── SearchStrategy.java
@@ -89,6 +89,9 @@ diharapkan solusi optimal, yaitu solusi yang meminimalkan banyaknya kata yang di
 3. Pilih algoritma yang diinginkan (UCS, G-BFS, ataupun A*).
 4. Klik tombol search.
 5. Hasil akan keluar, dan apabila ingin mencari lagi, cukup replace start word, end word, dan algoritma yang sebelumnya menjadi yang terbaru.
+
+<br>
+<b> P.S.: </b> Acuan kamus yang digunakan untuk program ini adalah dictionaryOracle.txt
 
 <br>
 <div align="center">
