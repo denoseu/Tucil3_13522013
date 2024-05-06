@@ -195,7 +195,7 @@ public class DensuGUI extends JFrame {
                     return null;
                 }
         
-                // Set loading message here, after checks
+                // baru bisa mulai loading kalo misalnya udah selesai check
                 SwingUtilities.invokeLater(() -> resultTextPane.setText("<html><div style='text-align: center; padding-top: 120px; font-size: 18px; color: #FFFDF4;'>Loading...</div></html>"));
         
                 return strategy.findWordLadder(start.toUpperCase(), end.toUpperCase(), dictionary);
@@ -270,7 +270,7 @@ public class DensuGUI extends JFrame {
     }
 
     private String formatInitialWord(String word) {
-        StringBuilder sb = new StringBuilder("<div style='letter-spacing: 10px;'>"); // Adding space between letter boxes
+        StringBuilder sb = new StringBuilder("<div style='letter-spacing: 10px;'>"); // add space between letter boxes
         for (char c : word.toCharArray()) {
             // nbsp buat spasi
             sb.append("<span style='border:2px solid black; background-color: #FFFDF4; padding:15px; margin:5px; font-size: 20px; display: inline-block; width:40px; height:40px; line-height:40px; text-align:center;'>&nbsp;")
